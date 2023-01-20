@@ -1,8 +1,15 @@
 <template>
   <div>
-    <button @click="executeWeb3">connect</button>
+    <div v-if="connected === false">
+      <button @click="connectWallet">connect to metamask</button>
+    </div>
     <input type="text" v-model="id" />
-    <button @click="doggiecall">Doggie call</button>
+    <div v-if="(!id.length)">
+      <button @click="doggiecall">Ramdom Doggie</button>
+    </div>
+    <div v-else>
+      <button @click="doggiecall">Doggie call</button>
+    </div>
   </div>
 </template>
 
@@ -35,11 +42,14 @@ export default {
       ];
       const web3 = new Web3(window.ethereum);
       let contract = new web3.eth.Contract(abi, contractAddress);
+      let min = 1
+      let max = 9999
+      let ramdom = Math.floor(Math.random()*(max - min)+min)
       return await contract.methods
         .baseTokenURI()
         .call()
         .then((result) => {
-          fetch(result + this.id)
+          fetch(result + (this.id || ramdom))
             .then(async (res) => {
               const doggieData = await res.json();
               console.log(doggieData);
@@ -51,7 +61,7 @@ export default {
           console.log(err);
         });
     },
-    connectWallet () {
+    connectWallet() {
       let provider = window.ethereum;
       //This function connect into to any wallet
       if (typeof provider !== undefined) {
