@@ -1,17 +1,23 @@
 <template>
-  <SearchBar />
+  <div>
+    <SearchBar />
+    <ShowDoggie />
+  </div>
 </template>
 
 <script>
 import SearchBar from "./components/SearchBar.vue";
+import ShowDoggie from "./components/ShowDoggie.vue"
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    SearchBar
+    SearchBar,
+    ShowDoggie
   },
-  
-}
+  mounted() {
+  }
+};
 </script>
 
 <style>
