@@ -4,7 +4,7 @@
       <button @click="connectWallet">connect to metamask</button>
     </div>
     <input type="text" v-model="id" />
-    <div v-if="(!id.length)">
+    <div v-if="!id.length">
       <button @click="doggiecall">Ramdom Doggie</button>
     </div>
     <div v-else>
@@ -39,20 +39,35 @@ export default {
           stateMutability: "view",
           type: "function",
         },
+        {
+          inputs: [
+            { internalType: "uint256", name: "tokenId", type: "uint256" },
+          ],
+          name: "ownerOf",
+          outputs: [{ internalType: "address", name: "", type: "address" }],
+          stateMutability: "view",
+          type: "function",
+        },
       ];
       const web3 = new Web3(window.ethereum);
       let contract = new web3.eth.Contract(abi, contractAddress);
-      let min = 1
-      let max = 9999
-      let ramdom = Math.floor(Math.random()*(max - min)+min)
+      let min = 1;
+      let max = 9999;
+      let ramdom = Math.floor(Math.random() * (max - min) + min);
       return await contract.methods
         .baseTokenURI()
         .call()
-        .then((result) => {
+        .then(async (result) => {
+          await contract.methods
+            .ownerOf(this.id || ramdom)
+            .call()
+            .then(async (res) => {
+              const ownerData = res;
+              this.$store.commit("setGlobalOwner", ownerData);
+            });
           fetch(result + (this.id || ramdom))
             .then(async (res) => {
               const doggieData = await res.json();
-              console.log(doggieData);
               this.$store.commit("setGlobalDoggie", doggieData);
             })
             .catch((err) => console.log(err));
@@ -68,7 +83,7 @@ export default {
         provider
           .request({ method: "eth_requestAccounts" })
           .then((accounts) => {
-            console.log(accounts);
+            this.$store.commit("setGlobalAccount", accounts[0]);
           })
           .catch((err) => {
             console.log(err);
