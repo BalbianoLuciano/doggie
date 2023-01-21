@@ -1,34 +1,53 @@
 <template>
   <div>
-    <div v-if="connected === false">
-      <button @click="connectWallet">connect to metamask</button>
-    </div>
     <input type="text" v-model="id" />
     <div v-if="!id.length">
-      <button @click="doggiecall">Ramdom Doggie</button>
+      <button
+        @click="
+          doggiecall();
+          connect();
+        "
+      >
+        Ramdom Doggie
+      </button>
     </div>
     <div v-else>
-      <button @click="doggiecall">Doggie call</button>
+      <button
+        @click="
+          doggiecall();
+          connect();
+        "
+      >
+        Doggie call
+      </button>
     </div>
   </div>
 </template>
 
 <script>
+import { useStore } from "vuex";
+import { computed } from "vue";
 import Web3 from "web3";
 
 export default {
   name: "SearchBar",
+  props: ["connect"],
   data() {
     return {
       id: "",
-      connected: false,
     };
   },
-
+  setup() {
+    const store = useStore();
+    let connected = computed(() => store.state.connected);
+    return {
+      connected,
+    };
+  },
   methods: {
     async doggiecall() {
       if (!this.connected) {
-        this.connectWallet();
+        this.connect();
       }
       let contractAddress = "0xc7df86762ba83f2a6197e1ff9bb40ae0f696b9e6";
       let abi = [
@@ -58,39 +77,26 @@ export default {
         .baseTokenURI()
         .call()
         .then(async (result) => {
-          await contract.methods
-            .ownerOf(this.id || ramdom)
-            .call()
-            .then(async (res) => {
-              const ownerData = res;
-              this.$store.commit("setGlobalOwner", ownerData);
-            });
           fetch(result + (this.id || ramdom))
             .then(async (res) => {
-              const doggieData = await res.json();
-              this.$store.commit("setGlobalDoggie", doggieData);
+              await contract.methods
+                .ownerOf(this.id || ramdom)
+                .call()
+                .then(async (owner) => {
+                  const ownerData = owner;
+                  this.$store.commit("setGlobalOwner", ownerData);
+                  const doggieData = await res.json();
+                  this.$store.commit("setGlobalDoggie", doggieData);
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
             })
             .catch((err) => console.log(err));
         })
         .catch((err) => {
           console.log(err);
         });
-    },
-    connectWallet() {
-      let provider = window.ethereum;
-      //This function connect into to any wallet
-      if (typeof provider !== undefined) {
-        provider
-          .request({ method: "eth_requestAccounts" })
-          .then((accounts) => {
-            this.$store.commit("setGlobalAccount", accounts[0]);
-          })
-          .catch((err) => {
-            console.log(err);
-            return;
-          });
-        this.connected = true;
-      }
     },
   },
   mounted() {},

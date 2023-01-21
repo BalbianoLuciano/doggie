@@ -1,22 +1,23 @@
 <template>
   <div>
-    <SearchBar />
+    <header>
+      <NavBar />
+    </header>
     <ShowDoggie />
   </div>
 </template>
 
 <script>
-import SearchBar from "./components/SearchBar.vue";
-import ShowDoggie from "./components/ShowDoggie.vue"
+import ShowDoggie from "./components/ShowDoggie.vue";
+import NavBar from "./components/NavBar.vue";
 
 export default {
   name: "App",
   components: {
-    SearchBar,
-    ShowDoggie
+    NavBar,
+    ShowDoggie,
   },
-  mounted() {
-  }
+  mounted() {},
 };
 </script>
 

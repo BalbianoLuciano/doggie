@@ -4,6 +4,7 @@ const store = createStore({
   state: {
     doggie: null,
     owner: null,
+    account: null,
     connected: false
   },
   mutations: {
@@ -14,7 +15,10 @@ const store = createStore({
       state.owner = ownerData
     },
     setGlobalAccount(state, accountData){
-      state.connected = accountData
+      state.account = accountData
+    },
+    setGlobalConnected(state, connectedData){
+      state.connected = connectedData
     }
   },
   getters: {},
