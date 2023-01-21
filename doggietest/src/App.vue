@@ -3,7 +3,13 @@
     <header>
       <NavBar />
     </header>
-    <ShowDoggie />
+    <div class="mx-2
+        md:mx-4
+        lg:mx-8
+        xl:mx-16
+        2xl:mx-32">
+      <ShowDoggie />
+    </div>
   </div>
 </template>
 
@@ -23,11 +29,6 @@ export default {
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  font-family: poppins, sans-serif;
 }
 </style>

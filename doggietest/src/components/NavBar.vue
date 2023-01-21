@@ -1,10 +1,25 @@
 <template>
-  <div>
-    <div>
-      <SearchBar v-bind:connect="connectWallet"/>
+  <div class="flex flex-col w-full  shadow lg:flex-row">
+    <div class="flex flex-row justify-around items-center">
+      <h1 class="p-2 text-2xl sm:text-4xl lg:m-8">The doggies</h1>
+      <div
+        v-if="this.connected === false"
+        class="m-2 p-2 rounded-lg items-center flex flex-row border"
+      >
+        <button @click="connectWallet" class="hidden sm:flex">
+          connect to your wallet
+        </button>
+        <button @click="connectWallet" class="self-center">
+          connect
+        </button>
+        <font-awesome-icon icon="fa-solid fa-wallet" class="text-xl px-2"/>
+      </div>
+      <div v-else class="m-2 p-2 rounded-lg items-center flex flex-row border">
+        {{ this.account.substr(0, 5) + "..." + this.account.substr(-5, 5) }}
+      </div>
     </div>
-    <div v-if="this.connected === false">
-      <button @click="connectWallet">connect to metamask</button>
+    <div class="m-4">
+      <SearchBar v-bind:connect="connectWallet" />
     </div>
   </div>
 </template>
@@ -20,8 +35,10 @@ export default {
   },
   setup() {
     const store = useStore();
+    let account = computed(() => store.state.account);
     let connected = computed(() => store.state.connected);
     return {
+      account,
       connected,
     };
   },

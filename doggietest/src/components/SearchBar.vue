@@ -1,26 +1,34 @@
 <template>
-  <div>
-    <input type="text" v-model="id" />
-    <div v-if="!id.length">
-      <button
-        @click="
-          doggiecall();
-          connect();
-        "
-      >
-        Ramdom Doggie
-      </button>
-    </div>
-    <div v-else>
-      <button
-        @click="
-          doggiecall();
-          connect();
-        "
-      >
-        Doggie call
-      </button>
-    </div>
+  <div class="relative">
+    <input
+      type="text"
+      v-model="id"
+      class="w-full focus:outline-none focus:shadow-outline-blue rounded-md py-2 px-4 block leading-5 border"
+      @keyup.enter="
+        doggiecall();
+        connect();
+      "
+    />
+    <button
+      v-if="!id.length"
+      @click="
+        doggiecall();
+        connect();
+      "
+      class="absolute py-2 px-4 rounded-r-md bg-gray-300 top-0 right-0 bottom-0"
+    >
+      <font-awesome-icon icon="fa-solid fa-shuffle" class="text-xl" />
+    </button>
+    <button
+      v-else
+      @click="
+        doggiecall();
+        connect();
+      "
+      class="absolute py-2 px-4 rounded-r-md bg-gray-300 top-0 right-0 bottom-0"
+    >
+      <font-awesome-icon icon="fa-solid fa-search" class="text-xl" />
+    </button>
   </div>
 </template>
 
