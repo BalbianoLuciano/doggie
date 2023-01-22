@@ -1,9 +1,25 @@
 <template>
   <div class="relative">
     <input
+      v-if="screenWidth >= 640"
+      type="text"
+      maxlength="4"
+      v-model="id"
+      class="w-full focus:outline-none focus:shadow-outline-blue rounded-md py-2 px-4 block leading-5 border
+      xl:py-4
+      "
+      placeholder="type tokenID or search ramdom doggie..."
+      @keyup.enter="
+        doggiecall();
+        connect();
+      "
+    />
+    <input
+      v-if="screenWidth < 640"
       type="text"
       v-model="id"
       class="w-full focus:outline-none focus:shadow-outline-blue rounded-md py-2 px-4 block leading-5 border"
+      placeholder="Search..."
       @keyup.enter="
         doggiecall();
         connect();
@@ -15,9 +31,9 @@
         doggiecall();
         connect();
       "
-      class="absolute py-2 px-4 rounded-r-md bg-gray-300 top-0 right-0 bottom-0"
+      class="absolute py-2 px-4 rounded-r-md bg-gray-300 top-0 right-0 bottom-0 xl:px-8"
     >
-      <font-awesome-icon icon="fa-solid fa-shuffle" class="text-xl" />
+      <font-awesome-icon icon="fa-solid fa-shuffle" class="text-xl xl:text-2xl" />
     </button>
     <button
       v-else
@@ -25,9 +41,9 @@
         doggiecall();
         connect();
       "
-      class="absolute py-2 px-4 rounded-r-md bg-gray-300 top-0 right-0 bottom-0"
+      class="absolute py-2 px-4 rounded-r-md bg-gray-300 top-0 right-0 bottom-0 xl:px-8"
     >
-      <font-awesome-icon icon="fa-solid fa-search" class="text-xl" />
+      <font-awesome-icon icon="fa-solid fa-search" class="text-xl xl:text-2xl" />
     </button>
   </div>
 </template>
@@ -43,6 +59,7 @@ export default {
   data() {
     return {
       id: "",
+      screenWidth: 0,
     };
   },
   setup() {
@@ -51,6 +68,12 @@ export default {
     return {
       connected,
     };
+  },
+  mounted() {
+    this.screenWidth = window.innerWidth;
+    window.addEventListener("resize", () => {
+      this.screenWidth = window.innerWidth;
+    });
   },
   methods: {
     async doggiecall() {
@@ -107,7 +130,6 @@ export default {
         });
     },
   },
-  mounted() {},
 };
 </script>
 

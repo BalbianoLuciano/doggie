@@ -1,6 +1,6 @@
 <template>
-  <div class="flex flex-col w-full  shadow lg:flex-row">
-    <div class="flex flex-row justify-around items-center">
+  <div class="flex flex-col w-full  shadow lg:flex-row lg:items-center">
+    <div class="flex flex-row justify-around items-center sm:justify-between sm:mx-4 sm:">
       <h1 class="p-2 text-2xl sm:text-4xl lg:m-8">The doggies</h1>
       <div
         v-if="this.connected === false"
@@ -9,7 +9,7 @@
         <button @click="connectWallet" class="hidden sm:flex">
           connect to your wallet
         </button>
-        <button @click="connectWallet" class="self-center">
+        <button @click="connectWallet" class="self-center sm:hidden">
           connect
         </button>
         <font-awesome-icon icon="fa-solid fa-wallet" class="text-xl px-2"/>
@@ -18,7 +18,7 @@
         {{ this.account.substr(0, 5) + "..." + this.account.substr(-5, 5) }}
       </div>
     </div>
-    <div class="m-4">
+    <div class="m-4 lg:w-2/4">
       <SearchBar v-bind:connect="connectWallet" />
     </div>
   </div>
