@@ -5,14 +5,23 @@
         {{ this.doggie.name }}
       </div>
       <div class="lg:flex lg:flex-row">
-        <img :src="this.doggie.image_url" class="w-full rounded-md lg:w-2/4 xl:rounded-xl"/>
-        <div class="lg:flex lg:flex-col lg:w-2/4 lg:pl-4 lg:text-lg ">
+        <img
+          :src="this.doggie.image_url"
+          class="w-full rounded-md lg:w-2/4 xl:rounded-xl"
+        />
+        <div class="lg:flex lg:flex-col lg:w-2/4 lg:pl-4 lg:text-lg">
           <div class="relative">
             <button
-              class="w-full inline-block text-left border py-2 px-4 mt-4 rounded-md font-semibold lg:mt-0"
+              class="flex justify-between w-full text-left border py-2 px-4 mt-4 rounded-md font-semibold lg:mt-0"
               @click="toggleMenu"
             >
               Details:
+              <span v-if="!isOpen"
+                ><font-awesome-icon icon="fa-solid fa-chevron-down"
+              /></span>
+              <span v-if="isOpen"
+                ><font-awesome-icon icon="fa-solid fa-chevron-up"
+              /></span>
             </button>
             <div
               v-if="isOpen"
@@ -39,9 +48,15 @@
           <div class="relative lg:text-lg">
             <button
               @click="toggleMenuTwo"
-              class="w-full inline-block text-left border py-2 px-4 rounded-md font-semibold lg:mt-0"
+              class="flex justify-between w-full text-left border py-2 px-4 rounded-md font-semibold lg:mt-0"
             >
               Description:
+              <span v-if="!isOpenTwo"
+                ><font-awesome-icon icon="fa-solid fa-chevron-down"
+              /></span>
+              <span v-if="isOpenTwo"
+                ><font-awesome-icon icon="fa-solid fa-chevron-up"
+              /></span>
             </button>
             <div
               v-if="isOpenTwo"
@@ -53,10 +68,26 @@
         </div>
       </div>
     </div>
-    <div v-else class="flex flex-col w-full h-screen justify-center items-center text-2xl">
-      <iframe src="https://www.sandbox.game/model-viewer-light/?assetId=95f8d431-b573-440e-b52f-5c14e18841e5" frameborder="0" class="hidden"></iframe>
-      <h2>Search Your first doggie</h2>
-      <img src="../assets/withoutBG.png" alt="doggie">
+    <div
+      v-else
+      class="flex flex-col w-full h-screen justify-center items-center text-2xl"
+    >
+      <h2 class="text-center lg:absolute lg:m-auto">
+        Type your doggie ID above or leave it empty to get a ramdom doggie
+        <br>
+        <span class="hidden mt-6 text-sm lg:grid">if you like, you can also interact with Doggie #9999</span>
+      </h2>
+      <iframe
+        v-if="screenWidth >= 1024"
+        src="https://www.sandbox.game/model-viewer-light/?assetId=95f8d431-b573-440e-b52f-5c14e18841e5"
+        frameborder="0"
+        class="w-full h-full opacity-30"
+      ></iframe>
+      <img
+        v-if="screenWidth < 1024"
+        src="../assets/withoutBG.png"
+        alt="doggie"
+      />
     </div>
     <div v-if="doggie">
       <ListOfTraits :listTraits="doggie.attributes" />
@@ -85,8 +116,8 @@ export default {
   },
   data() {
     return {
-      isOpen: false,
-      isOpenTwo: false,
+      isOpen: true,
+      isOpenTwo: true,
       screenWidth: 0,
     };
   },
@@ -103,10 +134,6 @@ export default {
     window.addEventListener("resize", () => {
       this.screenWidth = window.innerWidth;
     });
-    if (this.screenWidth >= 1024) {
-      this.isOpen = true;
-      this.isOpenTwo = true;
-    }
   },
 };
 </script>
