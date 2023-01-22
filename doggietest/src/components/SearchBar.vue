@@ -6,7 +6,6 @@
       maxlength="4"
       v-model="id"
       class="w-full focus:outline-none focus:shadow-outline-blue rounded-md py-2 px-4 block leading-5 border
-      xl:py-4
       "
       placeholder="type tokenID or search ramdom doggie..."
       @keyup.enter="
