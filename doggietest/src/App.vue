@@ -19,7 +19,7 @@ import NavBar from "./components/NavBar.vue";
 
 export default {
   name: "App",
-  themesTwo: 'app',
+  themesthree: 'app',
   components: {
     NavBar,
     ShowDoggie,
@@ -29,7 +29,11 @@ export default {
 </script>
 
 <style>
-#app {
-  font-family: poppins, sans-serif;
-}
+  #app {
+    font-family: poppins, sans-serif;
+  }
 </style>
+
+
+
+
