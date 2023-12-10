@@ -29,7 +29,11 @@ export default {
 </script>
 
 <style>
-#app {
-  font-family: poppins, sans-serif;
-}
+  #app {
+    font-family: poppins, sans-serif;
+  }
 </style>
+
+
+
+
