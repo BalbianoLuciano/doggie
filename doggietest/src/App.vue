@@ -19,7 +19,7 @@ import NavBar from "./components/NavBar.vue";
 
 export default {
   name: "App",
-  temande: "app",
+  themes: 'app',
   components: {
     NavBar,
     ShowDoggie,
